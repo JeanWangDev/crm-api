@@ -1,0 +1,36 @@
+# ============================================================================
+# TiDB / 开发联调环境 — 端口 8080
+# 连接信息来自 CRM_DB_* 环境变量（由 ./start.sh 加载 crm.local.env）
+# ============================================================================
+
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  datasource:
+    url: ${CRM_DB_URL}
+    username: ${CRM_DB_USER}
+    password: ${CRM_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 600000
+      keepalive-time: 60000
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  # TiDB Serverless 对 Flyway 命名锁不稳定，联调用 Hibernate 建表；正式环境用 prod + Flyway
+  flyway:
+    enabled: false
+
+logging:
+  level:
+    com.brother.crm: INFO

@@ -1,0 +1,38 @@
+# ============================================================================
+# crm-api 主配置（公共项 + 环境切换）
+# 环境由 SPRING_PROFILES_ACTIVE 控制：tidb（默认）| h2 | prod
+# 数据库账号通过 crm.local.env / 系统环境变量注入，勿把密码写进仓库
+# ============================================================================
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:tidb}
+  application:
+    name: crm-api
+  jackson:
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      mode: never
+
+server:
+  servlet:
+    context-path: /api
+
+crm:
+  cors:
+    allowed-origins: ${CRM_CORS_ORIGINS:http://127.0.0.1:5180,http://localhost:5180,http://127.0.0.1:5174,http://localhost:5174}
+  jwt:
+    secret: ${CRM_JWT_SECRET:brother-crm-dev-secret-change-me-32bytes-min}
+    expire-hours: ${CRM_JWT_EXPIRE_HOURS:168}
+
+logging:
+  level:
+    root: INFO
+    com.brother.crm: INFO
