@@ -1,0 +1,14 @@
+.git
+.idea
+target
+data
+*.iml
+.DS_Store
+crm.local.env
+crm.local.env.example
+HELP.md
+README.md
+start.sh
+mvnw
+mvnw.cmd
+settings.xml
